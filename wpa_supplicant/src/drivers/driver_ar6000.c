@@ -508,12 +508,10 @@ wpa_driver_ar6000_event_wireless_custom(struct wpa_driver_ar6000_data *drv, void
 		wpa_supplicant_event(ctx, EVENT_STKSTART, &data);
 #endif /* CONFIG_PEERKEY */
 #ifdef ANDROID
-#ifdef ANDROID_ECLAIR
 	} else if (os_strncmp(custom, "STOP", 4) == 0) {
 		wpa_msg(ctx, MSG_INFO, WPA_EVENT_DRIVER_STATE "STOPPED");
 	} else if (os_strncmp(custom, "START", 5) == 0) {
 		wpa_msg(ctx, MSG_INFO, WPA_EVENT_DRIVER_STATE "STARTED");
-#endif
 #endif // ANDROID && ECLAIR
 	}
 }
@@ -2709,7 +2707,7 @@ int wpa_driver_ar6000_driver_cmd(void *priv, char *cmd, char *buf, size_t buf_le
 		os_strncpy(ifr.ifr_name, drv->ifname, IFNAMSIZ);
 		if(ioctl(drv->ioctl_sock, SIOCGIFHWADDR, &ifr)==0) {
 			char *mac = ifr.ifr_hwaddr.sa_data;
-			return os_snprintf(buf, buf_len, "Macaddr = %02X.%02X.%02X.%02X.%02X.%02X\n",
+			return os_snprintf(buf, buf_len, "Macaddr = %02X:%02X:%02X:%02X:%02X:%02X\n",
 						mac[0], mac[1], mac[2],
 						mac[3], mac[4], mac[5]);
 		}
